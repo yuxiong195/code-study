@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.codestudy.mapper.BasicModelConfigMapper">
+
+    <resultMap id="BasicModelConfigResultMap" type="com.example.codestudy.model.BasicModelConfig">
+        <id property="id" column="id" />
+        <result property="modelId" column="model_id" />
+        <result property="modelName" column="model_name" />
+        <result property="prompt" column="prompt" />
+        <result property="createdBy" column="created_by" />
+        <result property="createdDate" column="created_date" />
+        <result property="lastUpdatedBy" column="last_updated_by" />
+        <result property="lastUpdatedDate" column="last_updated_date" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, model_id, model_name, prompt, created_by, created_date, last_updated_by, last_updated_date
+    </sql>
+
+    <insert id="insert" parameterType="com.example.codestudy.model.BasicModelConfig" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO basic_model_config (model_id, model_name, prompt, created_by, created_date, last_updated_by, last_updated_date)
+        VALUES (#{modelId}, #{modelName}, #{prompt}, #{createdBy}, #{createdDate}, #{lastUpdatedBy}, #{lastUpdatedDate})
+    </insert>
+
+    <select id="selectById" parameterType="long" resultMap="BasicModelConfigResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM basic_model_config
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByModelId" parameterType="long" resultMap="BasicModelConfigResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM basic_model_config
+        WHERE model_id = #{modelId}
+    </select>
+
+    <select id="selectAll" resultMap="BasicModelConfigResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM basic_model_config
+        ORDER BY last_updated_date DESC
+    </select>
+
+    <update id="update" parameterType="com.example.codestudy.model.BasicModelConfig">
+        UPDATE basic_model_config
+        SET model_id = #{modelId},
+            model_name = #{modelName},
+            prompt = #{prompt},
+            created_by = #{createdBy},
+            created_date = #{createdDate},
+            last_updated_by = #{lastUpdatedBy},
+            last_updated_date = #{lastUpdatedDate}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM basic_model_config WHERE id = #{id}
+    </delete>
+
+</mapper>
